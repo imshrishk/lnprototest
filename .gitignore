@@ -7,3 +7,108 @@ tags
 **.egg-info
 .idea
 dist
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+.ropeproject
+.DS_Store
+
+# Lightning-specific
+*.log
+*lightning*seed
+*lightning*.sqlite
+*.sqlite-journal
+ldk-scratch/
+*.db
+*.db-shm
+*.db-wal
+
+# Debug files
+*.debug
+*.trace
+node_modules/
+
+# Flask specific 
+instance/
+.webassets-cache
+flask_session/
+
+# Testing 
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# Documentation
+docs/_build/
+docs/api/generated/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Package distribution
+*.tgz
+*.tar.gz
+*.zip
+
+# Credentials files (never commit these)
+*.key
+*.pem
+*.cert
+credentials.json
+config.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Project-specific
+WORKDIR/
+fix/
+fix_log.txt
+ldk_fix/
+*.bak
+run.bat
+run.ps1
+run.sh
+windows-check.bat
+windows-check.ps1
+webapp/dist/
+webapp/node_modules/
+webapp/.next/

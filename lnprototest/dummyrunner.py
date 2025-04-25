@@ -44,8 +44,11 @@ class DummyRunner(Runner):
         return "10"
 
     def has_option(self, optname: str) -> Optional[str]:
+        # Modified to enable gossip_queries
+        if optname == "option_gossip_queries":
+            print(f"DummyRunner: returning enabled for {optname}")
+            return "enabled"
         return None
-
     def start(self) -> None:
         self.blockheight = 102
 

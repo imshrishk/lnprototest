@@ -2,6 +2,9 @@
 import logging
 import shutil
 import tempfile
+import os
+import sys
+import time
 
 import coincurve
 import functools
@@ -119,7 +122,24 @@ class Runner(ABC):
     def teardown(self):
         """The Teardown method is called at the end of the test,
         and it is used to clean up the root dir where the tests are run."""
-        shutil.rmtree(self.directory)
+        attempts = 3
+        for attempt in range(attempts):
+            try:
+                shutil.rmtree(self.directory, ignore_errors=True)
+                break
+            except PermissionError:
+                # On Windows, files might still be locked
+                if attempt < attempts - 1:
+                    # Wait a bit and retry
+                    self.logger.debug(f"Could not remove directory {self.directory}, retrying after delay...")
+                    time.sleep(1.0 * (attempt + 1))  # Increasing delay with each attempt
+                else:
+                    # Last attempt failed, just log the error
+                    self.logger.warning(f"Could not completely remove directory {self.directory} after {attempts} attempts")
+            except Exception as e:
+                # Other errors, just log
+                self.logger.warning(f"Error removing directory {self.directory}: {e}")
+                break
 
     def runner_features(
         self,

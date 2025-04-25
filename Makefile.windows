@@ -1,0 +1,47 @@
+#! /usr/bin/make
+
+# Windows-compatible Makefile for lnprototest
+
+# Using PowerShell commands instead of Unix find/grep for compatibility
+# Note: This requires PowerShell to be available
+
+default: check-source check check-quotes
+
+# For Windows, use PowerShell to find Python files
+PYTHONFILES := $(shell powershell -Command "Get-ChildItem -Recurse -Filter *.py | Where-Object { $$_.FullName -notlike '*build*' -and $$_.FullName -notlike '*venv*' } | ForEach-Object { $$_.FullName }")
+TEST_DIR=tests
+
+check-pytest-found:
+	@powershell -Command "if (!(Get-Command pytest -ErrorAction SilentlyContinue)) { Write-Error 'Cannot find pytest'; exit 1 }"
+
+check: check-pytest-found
+	python -m pytest $(PYTEST_ARGS) $(TEST_DIR)
+
+check-source: check-fmt check-mypy check-internal-tests
+
+check-mypy:
+	python -m mypy --ignore-missing-imports --disallow-untyped-defs --disallow-incomplete-defs $(PYTHONFILES)
+
+check-internal-tests: check-pytest-found
+	python -m pytest $(shell powershell -Command "Get-ChildItem -Path lnprototest -Recurse -Filter *.py | ForEach-Object { $$_.FullName }")
+
+check-quotes/%: %
+	python tools/check_quotes.py $*
+
+# This target will be different on Windows - we'll handle it separately
+check-quotes:
+	@echo "Running quote checks..."
+	@powershell -Command "Get-ChildItem -Recurse -Filter *.py | Where-Object { $$_.FullName -notlike '*build*' -and $$_.FullName -notlike '*venv*' } | ForEach-Object { python tools/check_quotes.py $$_.FullName }"
+
+check-fmt:
+	python -m black --check .
+
+fmt:
+	python -m black .
+
+# Alternative approach: Use the direct_run_all_tests.py script which is Windows-compatible
+run-all:
+	python direct_run_all_tests.py --all
+
+run-windows-tests:
+	python direct_run_all_tests.py --windows

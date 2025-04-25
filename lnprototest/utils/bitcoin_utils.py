@@ -1,3 +1,9 @@
+
+# Compatibility layer for different bitcoin library versions
+import bitcoin.core.key
+if not hasattr(bitcoin.core.key, 'CECKey'):
+    # For newer versions where CECKey was renamed to CKey
+    bitcoin.core.key.CECKey = bitcoin.core.key.CKey
 """
 Bitcoin utils is a collection of methods that helps to
 work with bitcoin primitive.

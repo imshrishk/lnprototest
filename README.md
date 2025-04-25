@@ -80,3 +80,120 @@ If you want to write new tests or new backends, see [HACKING.md](HACKING.md).
 Let's keep the sats flowing!
 
 Rusty.
+
+# LNPrototest Message Flow Visualizer
+
+A web application for visualizing and interacting with Lightning Network protocol message flows using lnprototest.
+
+This tool allows developers to:
+- Connect to different Lightning Network implementations (LDK, c-lightning, etc.)
+- Visualize message flows between nodes
+- Test protocol compliance with predefined test sequences
+- Send custom messages and observe responses
+
+## Project Structure
+
+```
+├── api/                      # Backend Flask API
+│   ├── app.py                # Main API implementation
+│   └── requirements.txt      # Python dependencies
+│
+├── webapp/                   # Frontend React application
+│   ├── public/               # Static assets
+│   ├── src/                  # Source code
+│   │   ├── api/              # API client
+│   │   ├── components/       # React components
+│   │   └── types/            # TypeScript type definitions
+│   ├── package.json          # Node.js dependencies
+│   └── tsconfig.json         # TypeScript configuration
+│
+└── README.md                 # This file
+```
+
+## Prerequisites
+
+- Node.js 16+ and npm
+- Python 3.7+
+- Lightning Network implementation (LDK is supported by default)
+
+## Setup Instructions
+
+### Backend API
+
+1. From the project root, set up a Python virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+2. Install the lnprototest and Flask API dependencies:
+
+```bash
+pip install -e .
+cd api
+pip install -r requirements.txt
+```
+
+3. Start the Flask API:
+
+```bash
+python app.py
+```
+
+The API will run on http://localhost:5000.
+
+### Frontend Web App
+
+1. Navigate to the webapp directory:
+
+```bash
+cd webapp
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm start
+```
+
+The web app will run on http://localhost:3000.
+
+## Usage Guide
+
+1. **Connect to a Node**: 
+   - Select an implementation from the dropdown
+   - Click "Connect" and provide connection details
+
+2. **Run a Test Sequence**:
+   - Select a predefined test sequence
+   - Click "Run Test Sequence"
+   - View the message flow results
+
+3. **Send Custom Messages**:
+   - Use the "Send Message" dropdown to select a message type
+   - Set message parameters if needed
+   - View the response in the message flow
+
+## BOLT Specifications Implementation
+
+This visualizer currently implements the following BOLT specifications:
+
+- BOLT #1: Base Protocol (Messaging)
+  - Init Messages
+  - Ping/Pong Messages
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- The Lightning Network Developers
+- lnprototest project maintainers
